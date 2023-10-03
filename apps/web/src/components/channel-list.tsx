@@ -1,9 +1,18 @@
 import { BorderlessTableOutlined } from '@ant-design/icons';
 import { useAppState } from '../state/state';
 import { Menu } from 'antd';
+import { useEffect } from 'react';
 
 export const ChannelList: React.FC = () => {
-  const { channels, currentChannel, joinChannel } = useAppState();
+  const { channels, getChannels, currentChannel, joinChannel } = useAppState();
+
+  useEffect(() => {
+    getChannels();
+
+    const interval = setInterval(getChannels, 1000);
+
+    return () => clearInterval(interval);
+  }, [getChannels]);
   
   return (
     <Menu

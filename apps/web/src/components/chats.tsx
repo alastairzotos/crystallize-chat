@@ -1,11 +1,11 @@
 import { Layout, theme } from "antd";
 
-import React, { useEffect } from "react";
+import React from "react";
 import { useAppState } from "../state/state";
 import { Chatbox } from "./chatbox";
 import { AppBar } from "./app-bar";
-import { ManageChannels } from "./manage-channels";
 import { ChannelList } from "./channel-list";
+import { CreateChannel } from "./create-channel";
 
 const { Sider, Content } = Layout;
 
@@ -14,11 +14,7 @@ export const Chats: React.FC = () => {
     token: { colorBgContainer }
   } = theme.useToken();
 
-  const { getChannels, currentChannel } = useAppState();
-
-  useEffect(() => {
-    getChannels();
-  }, [getChannels]);
+  const { currentChannel } = useAppState();
 
   return (
     <Layout>
@@ -28,7 +24,7 @@ export const Chats: React.FC = () => {
         <Sider width={300} style={{ backgroundColor: colorBgContainer }}>
           {currentChannel && <ChannelList />}
 
-          <ManageChannels />
+          <CreateChannel />
         </Sider>
 
         <Layout>
