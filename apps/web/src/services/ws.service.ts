@@ -16,12 +16,10 @@ export class WsService {
       const ws = new WebSocket(`${env.wsUrl}?channel=${channelName}&username=${username}`);
       this.channels[channelName] = ws;
 
-      ws.addEventListener('open', () => resolve());
+      ws.onopen = () => resolve();
       ws.onclose = onClose;
-
-      ws.addEventListener('error', () => reject());
-
-      ws.addEventListener('message', message => onMessage(JSON.parse(message.data)));
+      ws.onerror = reject;
+      ws.onmessage = message => onMessage(JSON.parse(message.data));
     })
   }
 
