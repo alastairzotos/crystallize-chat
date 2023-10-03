@@ -42,6 +42,7 @@ export const UsernameSelect: React.FC = () => {
             <Avatar username={name} />
 
             <Input
+              autoFocus
               placeholder="Enter your username"
               prefix={<UserOutlined />}
               value={name}
