@@ -27,7 +27,7 @@ export const createAppState = (httpService: HttpService, wsService: WsService) =
     setUsername: async (username: string) => {
       set({ username });
 
-      await self().joinChannel('lobby');
+      await self().joinChannel('Lobby');
     },
 
     joinChannel: async (channelName: string) => {
