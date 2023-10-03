@@ -12,7 +12,7 @@ export const Logo: React.FC = () => {
 
   return (
     <Wrapper>
-      <img src="/favicon.png" alt="Crystallize logo" width={36} height={36} style={{ marginTop: 14 }} />
+      <img src="/crystallize_symbol.svg" alt="Crystallize logo" width={36} height={36} style={{ marginTop: 14 }} />
 
       <Title level={4} style={{ color: colorWhite, margin: 0, paddingTop: 20, paddingLeft: 12 }}>Crystalk</Title>
     </Wrapper>
