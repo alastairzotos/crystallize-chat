@@ -29,6 +29,7 @@ export const MessageInput: React.FC = () => {
   return (
     <Wrapper>
       <Input
+        autoFocus
         size="large"
         placeholder="Send a message"
         value={message}
