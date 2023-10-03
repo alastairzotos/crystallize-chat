@@ -20,3 +20,4 @@ I also thought it would be fun to support emojis so I used [smile2emoji](https:/
 
 State is managed using Zustand.
 
+I also use turborepo to share types between frontend and backend.
