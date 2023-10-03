@@ -6,22 +6,18 @@ import { useAppState } from "../state/state"
 import { MessageBubble } from "./message-bubble";
 import { MessageInput } from './message-input';
 
-interface Props {
-  channel: string;
-}
-
 const Container = styled.div`height: 100%;`;
-const Inner = styled.div`height: calc(100vh - 100px); overflow-y: scroll;`;
+const Inner = styled.div`height: calc(100vh - 160px); overflow-y: scroll;`;
 const Spacer = styled(Space)`width: 100%;`;
 
-export const Chatbox: React.FC<Props> = ({ channel }) => {
-  const { messages } = useAppState();
+export const Chatbox: React.FC = () => {
+  const { messages, currentChannel } = useAppState();
 
-  const channelMessages = messages[channel];
-
-  if (!channelMessages) {
+  if (!currentChannel) {
     return null;
   }
+
+  const channelMessages = messages[currentChannel];
 
   return (
     <Container>

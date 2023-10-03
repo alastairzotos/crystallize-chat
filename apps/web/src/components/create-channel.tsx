@@ -41,6 +41,7 @@ export const CreateChannel: React.FC = () => {
       </Button>
 
       <Input
+        autoFocus
         value={name}
         onChange={e => setName(e.target.value)}
         onKeyUp={handleKeyUp}

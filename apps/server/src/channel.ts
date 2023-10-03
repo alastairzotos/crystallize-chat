@@ -8,7 +8,7 @@ export class ChatChannel {
     if (!!this.connections[username]) {
       return;
     }
-    
+
     this.connections[username] = conn;
 
     this.broadcast({
@@ -16,7 +16,7 @@ export class ChatChannel {
       eventType: 'join',
     })
 
-    conn.on('message', (buffer) => {
+    conn.on('message', (buffer) => { 
       this.broadcast({
         username,
         eventType: 'message',

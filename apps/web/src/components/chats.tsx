@@ -1,43 +1,42 @@
-import { Tabs, Card, Space, Button } from "antd";
-import { RedoOutlined } from '@ant-design/icons';
+import { Layout, theme } from "antd";
+
 import React, { useEffect } from "react";
 import { useAppState } from "../state/state";
-import { CreateChannel } from "./create-channel";
 import { Chatbox } from "./chatbox";
+import { AppBar } from "./app-bar";
+import { ManageChannels } from "./manage-channels";
+import { ChannelList } from "./channel-list";
+
+const { Sider, Content } = Layout;
 
 export const Chats: React.FC = () => {
-  const { channels, getChannels, currentChannel, joinChannel } = useAppState();
+  const {
+    token: { colorBgContainer }
+  } = theme.useToken();
+
+  const { getChannels, currentChannel } = useAppState();
 
   useEffect(() => {
     getChannels();
   }, [getChannels]);
 
   return (
-    <Card>
-      <Tabs
-        activeKey={currentChannel}
-        tabPosition="left"
-        tabBarStyle={{ width: 300 }}
+    <Layout>
+      <AppBar />
 
-        tabBarExtraContent={(
-          <Space>
-            <CreateChannel />
+      <Layout>
+        <Sider width={300} style={{ backgroundColor: colorBgContainer }}>
+          {currentChannel && <ChannelList />}
 
-            <Button onClick={getChannels}>
-              <RedoOutlined />
-            </Button>
-          </Space>
-        )}
+          <ManageChannels />
+        </Sider>
 
-        items={channels.map(channel => ({
-          id: channel,
-          key: channel,
-          label: channel,
-          children: <Chatbox channel={channel} />
-        }))}
-
-        onChange={joinChannel}
-      />
-    </Card>
+        <Layout>
+          <Content style={{ padding: 24 }}>
+            <Chatbox />
+          </Content>
+        </Layout>
+      </Layout>
+    </Layout>
   )
 }

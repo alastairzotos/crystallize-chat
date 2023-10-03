@@ -38,7 +38,7 @@ export const createAppState = (httpService: HttpService, wsService: WsService) =
           await wsService.joinChannel({
             channelName,
             username: self().username!,
-            onMessage: message => set({ messages: addMessageToChannel(self().messages, channelName, message) }),
+            onMessage: message => set({ messages: addMessageToChannel(self().messages, self().currentChannel!, message) }),
             onClose: () => set({ joinChannelStatus: 'failure' })
           });
 
