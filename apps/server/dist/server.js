@@ -5,9 +5,11 @@ const ws = require("ws");
 const express = require("express");
 const cors = require("cors");
 const channel_1 = require("./channel");
+const database_1 = require("./database");
 class ChatServer {
     constructor(httpPort, wsPort) {
         this.channels = {};
+        this.chatDatabase = new database_1.ChatDatabase();
         this.setupHttpServer(httpPort);
         this.setupWsServer(wsPort);
     }
@@ -34,7 +36,7 @@ class ChatServer {
         if (!!this.channels[name]) {
             return this.channels[name];
         }
-        const channel = new channel_1.ChatChannel();
+        const channel = new channel_1.ChatChannel(name, this.chatDatabase);
         this.channels[name] = channel;
         return channel;
     }

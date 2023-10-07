@@ -2,13 +2,16 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ChatChannel = void 0;
 class ChatChannel {
-    constructor() {
+    constructor(channelName, chatDatabase) {
+        this.channelName = channelName;
+        this.chatDatabase = chatDatabase;
         this.connections = {};
     }
     addConnection(username, conn) {
         if (!!this.connections[username]) {
             return;
         }
+        this.chatDatabase.getMessagesForChannel(this.channelName).forEach(message => this.sendMessageToConnection(conn, message));
         this.connections[username] = conn;
         this.broadcast({
             username,
@@ -30,7 +33,11 @@ class ChatChannel {
         });
     }
     broadcast(message) {
-        Object.values(this.connections).forEach(conn => conn.send(JSON.stringify(message)));
+        this.chatDatabase.addMessageToChannel(this.channelName, message);
+        Object.values(this.connections).forEach(conn => this.sendMessageToConnection(conn, message));
+    }
+    sendMessageToConnection(conn, message) {
+        conn.send(JSON.stringify(message));
     }
 }
 exports.ChatChannel = ChatChannel;

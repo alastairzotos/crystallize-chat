@@ -3,9 +3,11 @@ import * as express from 'express';
 import * as cors from 'cors';
 
 import { ChatChannel } from './channel';
+import { ChatDatabase } from './database';
 
 export class ChatServer {
   private readonly channels: Record<string, ChatChannel> = {};
+  private readonly chatDatabase = new ChatDatabase();
 
   constructor(httpPort: number, wsPort: number) {
     this.setupHttpServer(httpPort);
@@ -45,7 +47,7 @@ export class ChatServer {
       return this.channels[name];
     }
 
-    const channel = new ChatChannel();
+    const channel = new ChatChannel(name, this.chatDatabase);
     this.channels[name] = channel;
 
     return channel;

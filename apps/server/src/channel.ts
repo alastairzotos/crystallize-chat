@@ -1,13 +1,21 @@
 import * as ws from 'ws';
 import { ChatMessage } from 'types';
+import { ChatDatabase } from './database';
 
 export class ChatChannel {
   private connections: Record<string, ws.WebSocket> = {};
+
+  constructor(
+    private readonly channelName: string,
+    private readonly chatDatabase: ChatDatabase,
+  ) {}
 
   addConnection(username: string, conn: ws.WebSocket) {
     if (!!this.connections[username]) {
       return;
     }
+
+    this.chatDatabase.getMessagesForChannel(this.channelName).forEach(message => this.sendMessageToConnection(conn, message));
 
     this.connections[username] = conn;
 
@@ -35,6 +43,11 @@ export class ChatChannel {
   }
 
   broadcast(message: ChatMessage) {
-    Object.values(this.connections).forEach(conn => conn.send(JSON.stringify(message)))
+    this.chatDatabase.addMessageToChannel(this.channelName, message);
+    Object.values(this.connections).forEach(conn => this.sendMessageToConnection(conn, message));
+  }
+
+  private sendMessageToConnection(conn: ws.WebSocket, message: ChatMessage) {
+    conn.send(JSON.stringify(message));
   }
 }
