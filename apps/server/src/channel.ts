@@ -15,7 +15,7 @@ export class ChatChannel {
       return;
     }
 
-    this.chatDatabase.getMessagesForChannel(this.channelName).forEach(message => this.sendMessageToConnection(conn, message));
+    this.sendMessageToConnection(conn, this.chatDatabase.getMessagesForChannel(this.channelName));
 
     this.connections[username] = conn;
 
@@ -47,7 +47,7 @@ export class ChatChannel {
     Object.values(this.connections).forEach(conn => this.sendMessageToConnection(conn, message));
   }
 
-  private sendMessageToConnection(conn: ws.WebSocket, message: ChatMessage) {
+  private sendMessageToConnection(conn: ws.WebSocket, message: ChatMessage | ChatMessage[]) {
     conn.send(JSON.stringify(message));
   }
 }

@@ -4,7 +4,7 @@ import { ChatMessage, ChatMessageContent } from "types";
 interface JoinChannelOpts {
   channelName: string;
   username: string;
-  onMessage: (message: ChatMessage) => void;
+  onMessage: (message: ChatMessage | ChatMessage[]) => void;
   onClose: () => void;
 }
 

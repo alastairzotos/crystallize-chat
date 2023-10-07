@@ -1,11 +1,17 @@
 import { ChatMessage } from "types";
 
-export const addMessageToChannel = (messages: Record<string, ChatMessage[]>, channelName: string, message: ChatMessage) => ({
+export const addMessageToChannel = (messages: Record<string, ChatMessage[]>, channelName: string, message: ChatMessage | ChatMessage[]) => ({
   ...messages,
-  [channelName]: [
-    ...(messages[channelName] || []),
-    message,
-  ],
+  [channelName]:
+    Array.isArray(message)
+      ? [
+        ...(messages[channelName] || []),
+        ...message,
+      ]
+      : [
+        ...(messages[channelName] || []),
+        message,
+      ],
 })
 
 export const updateMessagesForNewChannel = (messages: Record<string, ChatMessage[]>, channelName: string) => ({

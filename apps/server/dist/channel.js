@@ -11,7 +11,7 @@ class ChatChannel {
         if (!!this.connections[username]) {
             return;
         }
-        this.chatDatabase.getMessagesForChannel(this.channelName).forEach(message => this.sendMessageToConnection(conn, message));
+        this.sendMessageToConnection(conn, this.chatDatabase.getMessagesForChannel(this.channelName));
         this.connections[username] = conn;
         this.broadcast({
             username,
